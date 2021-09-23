@@ -4,8 +4,12 @@ scriptencoding utf-8
 " Version:	0.1
 " ---------------------------------------------------------------------
 
-let g:input_en='com.apple.keylayout.ABC'
-let g:input_zh='com.apple.inputmethod.SCIM.ITABC'
+if ! exists('g:input_en')
+    let g:input_en='com.apple.keylayout.ABC'
+endif
+if ! exists('g:input_zh')
+    let g:input_zh='com.apple.inputmethod.SCIM.ITABC'
+endif
 
 let g:input_en=g:input_en . "\n"
 let g:input_zh=g:input_zh . "\n"

@@ -1,6 +1,9 @@
 Keep and restore Mac input method state for each buffer separately when leaving/re-entering insert mode or search mode. Like always typing English in normal mode, but Chinese in insert mode.
 
-Inspired by lilydjwg's [fcitx.vim](https://github.com/lilydjwg/fcitx.vim). Implement through [im-select](https://github.com/daipeihust/im-select)
+Inspired by lilydjwg's [fcitx.vim](https://github.com/lilydjwg/fcitx.vim). Implement through [im-select](https://github.com/daipeihust/im-select).
+
+This `README.md` is modified from the `README.md` in [fcitx.vim](https://github.com/lilydjwg/fcitx.vim).
+
 
 Requires:
 
@@ -31,6 +34,8 @@ Relative links:
 在离开或重新进入插入模式或搜索模式时自动记录和恢复每个缓冲区各自的输入法状态，以便在普通模式下始终是英文输入模式，切换回插入模式时恢复离开前的输入法输入模式。
 
 受依云的[fcitx.vim](https://github.com/lilydjwg/fcitx.vim)的启发，通过[im-select](https://github.com/daipeihust/im-select)实现切换输入法。
+
+这份 `README.md` 是修改自[fcitx.vim](https://github.com/lilydjwg/fcitx.vim)的`README.md`。
 
 
 要求:
