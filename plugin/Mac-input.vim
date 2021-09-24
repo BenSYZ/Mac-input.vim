@@ -1,7 +1,7 @@
 scriptencoding utf-8
 " fcitx.vim	remember Mac-input's input state for each buffer
 " Author:       BenSYZ
-" Version:	0.1
+" Version:	1.1
 " ---------------------------------------------------------------------
 
 if ! exists('g:input_en')

@@ -27,8 +27,7 @@ Warning:
 
 Relative links:
 
-* [vim-im-select](https://github.com/brglng/vim-im-select): Another plug-in that implements this function.
-
+* [vim-im-select](https://github.com/brglng/vim-im-select): Another plug-in that implements this function. Comparing with `vim-im-select`, `Mac-input` need less time to wait after Esc as saying in the second warning.
 
 
 在离开或重新进入插入模式或搜索模式时自动记录和恢复每个缓冲区各自的输入法状态，以便在普通模式下始终是英文输入模式，切换回插入模式时恢复离开前的输入法输入模式。
@@ -61,4 +60,4 @@ let g:input_zh='com.apple.inputmethod.SCIM.ITABC'
 
 相关链接：
 
-* [vim-im-select](https://github.com/brglng/vim-im-select)： 另一个实现此功能的插件。
+* [vim-im-select](https://github.com/brglng/vim-im-select)： 另一个实现此功能的插件。相较于`vim-im-select`，`Mac-input`在退出插入模式后需要等待的时间（注意事项2）更短
