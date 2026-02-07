@@ -25,10 +25,10 @@ endif
 func Input2normal()
     :let g:input_now=system('im-select')
     if g:input_now == g:input_en
-	let g:input_last = g:input_en
+        let g:input_last = g:input_en
     elseif g:input_now == g:input_zh
-	let g:input_last = g:input_zh
-	:let status=system("im-select " . g:input_en)
+        let g:input_last = g:input_zh
+        :let status=system("im-select " . g:input_en)
     endif
     "echo g:input_now
 endfunc
@@ -37,7 +37,7 @@ func Input2insert()
     "if g:input_last == g:input_en
     "    let g:input_last = g:input_en
     if g:input_last == g:input_zh
-	:let status=system("im-select " . g:input_zh)
+        :let status=system("im-select " . g:input_zh)
     endif
     "echo g:input_now
 endfunc
