@@ -16,19 +16,29 @@ let g:input_zh=g:input_zh . "\n"
 "echo g:input_zh
 "echo g:input_en
 
-
-:let g:input_now=system('im-select')
-
-if ! exists('input_last')
-    :let g:input_last=g:input_now
+if has('mac')
+    :let g:im_select_bin="im-select"
+elseif exists('$SSH_CONNECTION')
+    :let g:im_select_bin= expand('<sfile>:p:h') ."/remote/im_select_client.py"
+    ":echo g:im_select_bin
+else
+    finish
 endif
+
+
+:let g:input_now=system(g:im_select_bin)
+if ! exists('input_now')
+    finish
+endif
+
+:let g:input_last=g:input_now
 func Input2normal()
-    :let g:input_now=system('im-select')
+    :let g:input_now=system(g:im_select_bin)
     if g:input_now == g:input_en
         let g:input_last = g:input_en
     elseif g:input_now == g:input_zh
         let g:input_last = g:input_zh
-        :let status=system("im-select " . g:input_en)
+        :let status=system(g:im_select_bin . " " . g:input_en)
     endif
     "echo g:input_now
 endfunc
@@ -37,7 +47,7 @@ func Input2insert()
     "if g:input_last == g:input_en
     "    let g:input_last = g:input_en
     if g:input_last == g:input_zh
-        :let status=system("im-select " . g:input_zh)
+        :let status=system(g:im_select_bin . " " . g:input_zh)
     endif
     "echo g:input_now
 endfunc

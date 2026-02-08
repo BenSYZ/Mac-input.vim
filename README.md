@@ -61,3 +61,13 @@ let g:input_zh='com.apple.inputmethod.SCIM.ITABC'
 相关链接：
 
 * [vim-im-select](https://github.com/brglng/vim-im-select)： 另一个实现此功能的插件。相较于`vim-im-select`，`Mac-input`在退出插入模式后需要等待的时间（注意事项2）更短
+
+## remote support
+Main scenes: ssh from mac to Linux
+
+* Client side(Linux): get client address from `SSH_CONNECTION` environment
+* Server side(Mac): start `im_selecet_server.py` manually
+
+**Security issue**: `im_selecet_server.py` will open and listen to `0.0.0.0:12812`, you can listen 127.0.0.1 and use ssh to forward
+
+
