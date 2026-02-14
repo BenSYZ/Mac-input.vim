@@ -2,6 +2,7 @@
 import socket
 import sys
 import os
+from ipaddress import ip_address, IPv4Address, IPv6Address
 
 PORT = 12812
 
@@ -18,7 +19,15 @@ def main():
 
     mac_host = get_mac_host()
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    if type(ip_address(mac_host)) is IPv4Address:
+        socket_family=socket.AF_INET
+    elif type(ip_address(mac_host)) is IPv6Address:
+        socket_family=socket.AF_INET6
+    else:
+        print("error unknown address")
+        return
+
+    with socket.socket(socket_family, socket.SOCK_STREAM) as s:
         s.connect((mac_host, PORT))
         s.sendall((im_id + "\n").encode("utf-8"))
 

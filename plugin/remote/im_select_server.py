@@ -2,7 +2,7 @@
 import socket
 import subprocess
 
-HOST = "0.0.0.0"
+HOST = "::"
 PORT = 12812
 
 # 🔒 Whitelist of allowed input methods
@@ -44,7 +44,8 @@ def handle_client(conn):
         conn.close()
 
 def main():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+
+    with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind((HOST, PORT))
         s.listen(5)
