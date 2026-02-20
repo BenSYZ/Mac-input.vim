@@ -11,35 +11,39 @@ IM_WHITELIST = {
     "com.apple.keylayout.US",
     "com.apple.keylayout.Colemak",
     "com.apple.inputmethod.SCIM.ITABC",
+    "",
     # add more as needed
 }
+error_str_prefix="E: Mac-input: "
 
 def handle_client(conn):
     try:
         data = conn.recv(1024)
         msg = data.decode("utf-8").strip() if data else ""
+        #print(msg)
 
-        if msg:
-            if msg in IM_WHITELIST:
-                subprocess.run(
-                    ["im-select", msg],
-                    stdout=subprocess.DEVNULL,
+        if msg in IM_WHITELIST:
+            cmd_list=["im-select"]
+            if msg:
+                cmd_list.append(msg)
+            try:
+                result = subprocess.run(
+                    cmd_list,
+                    stdout=subprocess.PIPE,
                     stderr=subprocess.DEVNULL,
-                    check=False
+                    text=True,
+                    check=True
                 )
-            # else: silently ignore invalid parameter
+                current_im = result.stdout.strip()
+                if current_im == "":
+                    current_im=msg
+            except subprocess.CalledProcessError:
+                current_im = error_str_prefix + "im_select failed"
         else:
-            # Query current input method
-            result = subprocess.run(
-                ["im-select"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.DEVNULL,
-                text=True,
-                check=False
-            )
-            current_im = result.stdout.strip()
-            if current_im:
-                conn.sendall((current_im + "\n").encode("utf-8"))
+            current_im = error_str_prefix + "invalid parameter"
+        #print(current_im)
+        conn.sendall((current_im + "\n").encode("utf-8"))
+
     finally:
         conn.close()
 

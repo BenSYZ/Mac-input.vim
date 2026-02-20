@@ -10,46 +10,68 @@ endif
 if ! exists('g:input_zh')
     let g:input_zh='com.apple.inputmethod.SCIM.ITABC'
 endif
+if !exists('g:input_remote_timeout')
+    let g:input_remote_timeout=0.5
+endif
 
-let g:input_en=g:input_en . "\n"
-let g:input_zh=g:input_zh . "\n"
 "echo g:input_zh
 "echo g:input_en
 
-if has('mac')
-    :let g:im_select_bin="im-select"
-elseif exists('$SSH_CONNECTION')
-    :let g:im_select_bin= expand('<sfile>:p:h') ."/remote/im_select_client.py"
+if exists('$SSH_CONNECTION')
+    let g:im_select_bin= expand('<sfile>:p:h') ."/remote/im_select_client.py"
     ":echo g:im_select_bin
+elseif has('mac')
+    let g:im_select_bin="im-select"
 else
     finish
 endif
 
+function ImCmdList(im_select_bin, im, timeout)
+    if has('mac')
+        if a:im == ""
+            return [a:im_select_bin]
+        else
+            return [a:im_select_bin, a:im]
+        endif
+    endif
+    return [a:im_select_bin, a:im, a:timeout]
+endfunction
 
-:let g:input_now=system(g:im_select_bin)
-if ! exists('input_now')
+
+"let result=trim(system(g:im_select_bin))
+let result=trim(system(ImCmdList(g:im_select_bin, "", string(g:input_remote_timeout))))
+if v:shell_error != 0
+    echohl WarningMsg | echo result | echohl None
     finish
 endif
+if ! exists('result')
+    finish
+endif
+let g:input_last = result
 
-:let g:input_last=g:input_now
 func Input2normal()
-    :let g:input_now=system(g:im_select_bin)
-    if g:input_now == g:input_en
-        let g:input_last = g:input_en
-    elseif g:input_now == g:input_zh
-        let g:input_last = g:input_zh
-        :let status=system(g:im_select_bin . " " . g:input_en)
+    let result=trim(system(g:im_select_bin))
+    if v:shell_error != 0
+        "echo result
+        return
     endif
-    "echo g:input_now
+    let g:input_last = result
+    if g:input_last == g:input_zh
+        let result=trim(system(ImCmdList(g:im_select_bin, g:input_en, g:input_remote_timeout)))
+    endif
+    "echo g:input_last
 endfunc
 
 func Input2insert()
-    "if g:input_last == g:input_en
-    "    let g:input_last = g:input_en
     if g:input_last == g:input_zh
-        :let status=system(g:im_select_bin . " " . g:input_zh)
+        "echo "Set to" . g:input_last
+        let result=trim(system(ImCmdList(g:im_select_bin, g:input_last, g:input_remote_timeout)))
+        if v:shell_error != 0
+            "echo result
+            return
+        endif
     endif
-    "echo g:input_now
+    "echo g:input_last
 endfunc
 
 
